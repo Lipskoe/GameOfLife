@@ -5,11 +5,11 @@ public class main {
     public static void main(String[] args) {
 
         ReadJSONFile json = new ReadJSONFile();
-        String stringd= json.ReadJSONFile("parameters.json");
+        String json_content= json.ReadJSONFile("parameters.json");
         Gson gson = new Gson();
-        Config config = gson.fromJson(stringd, Config.class);
-        int enginess=config.engines;
-        if (enginess==2) {
+        Config config = gson.fromJson(json_content, Config.class);
+        int engines_number=config.engines;
+        if (engines_number==2) {
             try {
                 SimulationEngine engine = new SimulationEngine(config.width, config.height, config.jungle_ratio, config.animals_on_start, config.start_energy, config.plant_energy, config.move_energy, config.max_energy, config.timeout_in_ms, "Game of Life", config.start_field_grass, config.start_jungle_grass, config.daily_grass_on_field, config.daily_grass_on_jungle);
                 engine.start();
