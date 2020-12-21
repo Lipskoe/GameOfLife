@@ -1,0 +1,16 @@
+{
+    "engines": 1,
+    "width": 160,
+    "height": 160,
+    "jungle_ratio": 0.4,
+    "animals_on_start": 300,
+    "start_energy": 50,
+    "plant_energy": 20,
+    "move_energy": 1,
+    "max_energy": 100,
+    "timeout_in_ms": 10,
+    "start_field_grass": 50,
+    "start_jungle_grass": 400,
+    "daily_grass_on_field": 10,
+    "daily_grass_on_jungle": 10
+}
