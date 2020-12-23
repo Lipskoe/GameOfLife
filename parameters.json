@@ -1,5 +1,5 @@
 {
-    "engines": 1,
+    "engines": 2,
     "width": 160,
     "height": 160,
     "jungle_ratio": 0.4,
@@ -8,9 +8,10 @@
     "plant_energy": 20,
     "move_energy": 1,
     "max_energy": 100,
-    "timeout_in_ms": 10,
+    "timeout_in_ms": 20,
     "start_field_grass": 50,
     "start_jungle_grass": 400,
     "daily_grass_on_field": 10,
-    "daily_grass_on_jungle": 10
+    "daily_grass_on_jungle": 10,
+    "days_to_report": 1000
 }

@@ -13,8 +13,9 @@ public class Config {
     public int start_jungle_grass;
     public int daily_grass_on_field;
     public int daily_grass_on_jungle;
+    public int days_to_report;
 
-    public Config(int engines, int width,int height,float jungle_ratio,int animals_on_start,int start_energy,int plant_energy,int move_energy,int max_energy,int timeout_in_ms, int start_field_grass, int start_jungle_grass, int daily_grass_on_field, int daily_grass_on_jungle){
+    public Config(int engines, int width,int height,float jungle_ratio,int animals_on_start,int start_energy,int plant_energy,int move_energy,int max_energy,int timeout_in_ms, int start_field_grass, int start_jungle_grass, int daily_grass_on_field, int daily_grass_on_jungle, int days_to_report){
         this.engines=engines;
         this.width=width;
         this.height=height;
@@ -29,5 +30,6 @@ public class Config {
         this.start_jungle_grass=start_jungle_grass;
         this.daily_grass_on_field=daily_grass_on_field;
         this.daily_grass_on_jungle=daily_grass_on_jungle;
+        this.days_to_report=days_to_report;
     }
 }

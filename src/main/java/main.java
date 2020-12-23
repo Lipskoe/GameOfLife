@@ -11,9 +11,9 @@ public class main {
         int engines_number=config.engines;
         if (engines_number==2) {
             try {
-                SimulationEngine engine = new SimulationEngine(config.width, config.height, config.jungle_ratio, config.animals_on_start, config.start_energy, config.plant_energy, config.move_energy, config.max_energy, config.timeout_in_ms, "Game of Life", config.start_field_grass, config.start_jungle_grass, config.daily_grass_on_field, config.daily_grass_on_jungle);
+                SimulationEngine engine = new SimulationEngine(config.width, config.height, config.jungle_ratio, config.animals_on_start, config.start_energy, config.plant_energy, config.move_energy, config.max_energy, config.timeout_in_ms, "Game of Life 1", config.start_field_grass, config.start_jungle_grass, config.daily_grass_on_field, config.daily_grass_on_jungle, config.days_to_report);
                 engine.start();
-                SimulationEngine engine2 = new SimulationEngine(config.width, config.height, config.jungle_ratio, config.animals_on_start, config.start_energy, config.plant_energy, config.move_energy, config.max_energy, config.timeout_in_ms, "Game of Life", config.start_field_grass, config.start_jungle_grass, config.daily_grass_on_field, config.daily_grass_on_jungle);
+                SimulationEngine engine2 = new SimulationEngine(config.width, config.height, config.jungle_ratio, config.animals_on_start, config.start_energy, config.plant_energy, config.move_energy, config.max_energy, config.timeout_in_ms, "Game of Life 2", config.start_field_grass, config.start_jungle_grass, config.daily_grass_on_field, config.daily_grass_on_jungle, config.days_to_report);
                 engine2.start();
                 while (true) {
                     if ((engine.isAlive() || engine2.isAlive()) == false) {
@@ -32,7 +32,7 @@ public class main {
         }
         else{
             try {
-                SimulationEngine engine = new SimulationEngine(config.width, config.height, config.jungle_ratio, config.animals_on_start, config.start_energy, config.plant_energy, config.move_energy, config.max_energy, config.timeout_in_ms, "Game of Life", config.start_field_grass, config.start_jungle_grass, config.daily_grass_on_field, config.daily_grass_on_jungle);
+                SimulationEngine engine = new SimulationEngine(config.width, config.height, config.jungle_ratio, config.animals_on_start, config.start_energy, config.plant_energy, config.move_energy, config.max_energy, config.timeout_in_ms, "Game of Life", config.start_field_grass, config.start_jungle_grass, config.daily_grass_on_field, config.daily_grass_on_jungle, config.days_to_report);
                 engine.start();
                 while (true) {
                     if (engine.isAlive()==false){

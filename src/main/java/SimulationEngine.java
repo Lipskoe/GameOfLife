@@ -12,13 +12,15 @@ public class SimulationEngine extends Thread implements ActionListener {
     boolean paused;
     boolean running;
     int timeout;
+    int days_to_report;
 
-    public SimulationEngine(int width, int height, double jungle_ratio, int howmany, int spawnenergy, int plantenergy, int moveenergy, int maxenergy, int timeout, String title, int start_field_grass, int start_jungle_grass, int daily_grass_on_field, int daily_grass_on_jungle){
+    public SimulationEngine(int width, int height, double jungle_ratio, int howmany, int spawnenergy, int plantenergy, int moveenergy, int maxenergy, int timeout, String title, int start_field_grass, int start_jungle_grass, int daily_grass_on_field, int daily_grass_on_jungle, int days_to_report){
 
         this.timeout=timeout;
         this.paused=false;
         this.map = new GrassField(width, height, jungle_ratio,howmany, spawnenergy,plantenergy,moveenergy, maxenergy, start_field_grass, start_jungle_grass, daily_grass_on_field, daily_grass_on_jungle);
         int square;
+        this.days_to_report=days_to_report;
 
         if((height>0)&&(height<=20)){
             square=40;
@@ -49,7 +51,7 @@ public class SimulationEngine extends Thread implements ActionListener {
 
         world_panel=new WorldPanel(map, square);
         world_panel.setBounds(0,0,map.getWidth()*square,map.getHeight()*square);
-        stats_panel=new StatsPanel(map);
+        stats_panel=new StatsPanel(map, title);
         stats_panel.setBounds(0,0,200,frame_height);
         stats_panel.pause_button.addActionListener(this);
         frame.add(world_panel);
@@ -65,6 +67,9 @@ public class SimulationEngine extends Thread implements ActionListener {
                 map.run();
                 world_panel.repaint();
                 stats_panel.UpdateStats();
+                if(this.days_to_report>=this.map.getDays_passed()){
+                    stats_panel.reportToFile();
+                }
                 try {
                     TimeUnit.MILLISECONDS.sleep(this.timeout);
                 } catch (InterruptedException e) {

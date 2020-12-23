@@ -1,5 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class StatsPanel extends JPanel {
     public JLabel label1;
@@ -21,9 +29,21 @@ public class StatsPanel extends JPanel {
     public JButton pause_button;
     public int previous_dead_number;
     public int previous_dead_sum;
+    public String file_name;
+    public int average_energy;
+    public float average_days_lived;
+    public float average_number_of_kids;
+    public float gen_0_popularity;
+    public float gen_1_popularity;
+    public float gen_2_popularity;
+    public float gen_3_popularity;
+    public float gen_4_popularity;
+    public float gen_5_popularity;
+    public float gen_6_popularity;
+    public float gen_7_popularity;
 
 
-    public StatsPanel(GrassField map) {
+    public StatsPanel(GrassField map, String title) {
         this.setBackground(Color.lightGray);
         this.setLayout(null);
         this.map=map;
@@ -80,6 +100,16 @@ public class StatsPanel extends JPanel {
         setVisible(true);
         previous_dead_number=0;
         previous_dead_sum=0;
+
+        try{
+            String time_stamp = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
+            this.file_name=title+"-"+time_stamp+".txt";
+            File myObj = new File(this.file_name);
+            myObj.createNewFile();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     public void UpdateStats(){
@@ -87,14 +117,14 @@ public class StatsPanel extends JPanel {
         for (int i=0; i<map.getAnimals_list().size(); i++){
             energy_sum+=map.getAnimals_list().get(i).GetEnergy();
         }
-        int average_energy=energy_sum/map.getAnimals_list().size();
+        this.average_energy=energy_sum/map.getAnimals_list().size();
 
         int days_lived_sum=0;
         for (int i=0; i<map.getDead_animals_list().size(); i++){
             days_lived_sum+=map.getDead_animals_list().get(i).getDays_lived();
         }
 
-        float average_days_lived=0;
+        average_days_lived=0;
         if((map.getDead_animals_list().size()+previous_dead_number==0)==false){
             average_days_lived=((float)(days_lived_sum+previous_dead_sum))/(map.getDead_animals_list().size()+previous_dead_number);
         }
@@ -103,7 +133,7 @@ public class StatsPanel extends JPanel {
         for (int i=0; i<map.getAnimals_list().size(); i++){
             number_of_kid_sum+=map.getAnimals_list().get(i).getNumber_of_kids();
         }
-        float average_number_of_kid=((float) number_of_kid_sum)/map.getAnimals_list().size();
+        average_number_of_kids=((float) number_of_kid_sum)/map.getAnimals_list().size();
 
         int number_of_genotype_0=0;
         int number_of_genotype_1=0;
@@ -124,22 +154,22 @@ public class StatsPanel extends JPanel {
             number_of_genotype_6 += count_occurances(map.getAnimals_list().get(i).GetGenes().genes, 6);
             number_of_genotype_7 += count_occurances(map.getAnimals_list().get(i).GetGenes().genes, 7);
         }
-        float gen_0_popularity = ((float) number_of_genotype_0) / (32*map.getAnimals_list().size());
-        float gen_1_popularity = ((float) number_of_genotype_1) / (32*map.getAnimals_list().size());
-        float gen_2_popularity = ((float) number_of_genotype_2) / (32*map.getAnimals_list().size());
-        float gen_3_popularity = ((float) number_of_genotype_3) / (32*map.getAnimals_list().size());
-        float gen_4_popularity = ((float) number_of_genotype_4) / (32*map.getAnimals_list().size());
-        float gen_5_popularity = ((float) number_of_genotype_5) / (32*map.getAnimals_list().size());
-        float gen_6_popularity = ((float) number_of_genotype_6) / (32*map.getAnimals_list().size());
-        float gen_7_popularity = ((float) number_of_genotype_7) / (32*map.getAnimals_list().size());
+        gen_0_popularity = ((float) number_of_genotype_0) / (32*map.getAnimals_list().size());
+        gen_1_popularity = ((float) number_of_genotype_1) / (32*map.getAnimals_list().size());
+        gen_2_popularity = ((float) number_of_genotype_2) / (32*map.getAnimals_list().size());
+        gen_3_popularity = ((float) number_of_genotype_3) / (32*map.getAnimals_list().size());
+        gen_4_popularity = ((float) number_of_genotype_4) / (32*map.getAnimals_list().size());
+        gen_5_popularity = ((float) number_of_genotype_5) / (32*map.getAnimals_list().size());
+        gen_6_popularity = ((float) number_of_genotype_6) / (32*map.getAnimals_list().size());
+        gen_7_popularity = ((float) number_of_genotype_7) / (32*map.getAnimals_list().size());
 
         this.label1.setText("animals amount: "+Integer.toString(this.map.getAnimals_list().size()));
         this.label2.setText("grass amount: "+Integer.toString(this.map.getGrass_list().size()));
-        this.label3.setText("average energy: "+Integer.toString(average_energy));
-        this.label4.setText("dead animals: "+Integer.toString(previous_dead_number+map.getDead_animals_list().size()));
-        this.label5.setText("average lifespan: "+String.format("%2.01f", average_days_lived));
+        this.label3.setText("average energy: "+Integer.toString(this.average_energy));
+        this.label4.setText("dead animals: "+Integer.toString(this.previous_dead_number+this.map.getDead_animals_list().size()));
+        this.label5.setText("average lifespan: "+String.format("%2.01f", this.average_days_lived));
         this.label6.setText("days passed: "+Integer.toString(this.map.getDays_passed()));
-        this.label7.setText("average number of kids: "+String.format("%2.01f", average_number_of_kid));
+        this.label7.setText("average number of kids: "+String.format("%2.01f", average_number_of_kids));
         this.label8.setText("Genotype 0 popularity: "+String.format("%2.02f", gen_0_popularity));
         this.label9.setText("Genotype 1 popularity: "+String.format("%2.02f", gen_1_popularity));
         this.label10.setText("Genotype 2 popularity: "+String.format("%2.02f", gen_2_popularity));
@@ -152,6 +182,13 @@ public class StatsPanel extends JPanel {
         previous_dead_number+=map.getDead_animals_list().size();
         previous_dead_sum+=days_lived_sum;
         map.getDead_animals_list().clear();
+    }
+
+    public void reportToFile(){try {
+        Files.write(Paths.get(this.file_name), ("Day: "+Integer.toString(map.getDays_passed())+"\t\tanimals ammount:" +Integer.toString(this.map.getAnimals_list().size())+"\t\tgrass ammount:" +Integer.toString(this.map.getGrass_list().size())+"\t\taverage energy:" +Integer.toString(this.average_energy)+"\t\tdead animals:" +Integer.toString(this.previous_dead_number+this.map.getDead_animals_list().size())+"\t\taverage lifespan:" +String.format("%2.02f", this.average_days_lived)+"\t\taverage number of kids:" +String.format("%2.02f", this.average_number_of_kids)+"\t\tGenotype 0 popularity: "+String.format("%2.02f", this.gen_0_popularity)+"\t\tGenotype 1 popularity: "+String.format("%2.02f", this.gen_1_popularity)+"\t\tGenotype 2 popularity: "+String.format("%2.02f", this.gen_2_popularity)+"\t\tGenotype 3 popularity: "+String.format("%2.02f", this.gen_3_popularity)+ "\t\tGenotype 4 popularity: "+String.format("%2.02f", this.gen_4_popularity)+"\t\tGenotype 5 popularity: "+String.format("%2.02f", this.gen_5_popularity)+"\t\tGenotype 6 popularity: "+String.format("%2.02f", this.gen_6_popularity)+"\t\tGenotype 7 popularity: "+String.format("%2.02f", this.gen_7_popularity)+"\n").getBytes(), StandardOpenOption.APPEND);
+    }catch (IOException e) {
+        //exception handling left as an exercise for the reader
+    }
     }
 
     public int count_occurances(int[] genes, int gene){
